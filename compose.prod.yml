@@ -1,0 +1,46 @@
+services:
+  selenium-hub:
+    restart: always
+    image: selenium/hub:3.141.59-20210929
+    ports:
+      - "4444:4444"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4444/wd/hub/status"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    networks:
+      - app-network
+
+  chrome:
+    restart: always
+    image: selenium/node-chrome:3.141.59-20210929
+    volumes:
+      - /dev/shm:/dev/shm
+      - ./downloads:/app/downloads
+    depends_on:
+      - selenium-hub
+    environment:
+      - HUB_HOST=selenium-hub
+      - HUB_PORT=4444
+      - NODE_MAX_INSTANCES=3
+      - NODE_MAX_SESSION=3
+    networks:
+      - app-network
+  bot:
+    container_name: bot_prod
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.prod
+    env_file:
+      - .env
+    volumes:
+      - ./downloads:/app/downloads
+    restart: always
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
