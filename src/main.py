@@ -28,7 +28,7 @@ async def download_reel(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_video(video_file)
     except Exception as e:
         await update.message.reply_text("❌ An error occurred, please try again")
-        return
+        print(f'Error: {e}')
     finally:
         shutil.rmtree(download_folder)
 
