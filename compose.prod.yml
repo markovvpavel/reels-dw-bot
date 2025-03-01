@@ -29,7 +29,7 @@ services:
     networks:
       - app-network
   bot:
-    container_name: bot_prod
+    container_name: reels-dw-bot_prod
     build:
       context: .
       dockerfile: docker/Dockerfile.prod

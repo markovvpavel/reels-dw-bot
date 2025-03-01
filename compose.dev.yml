@@ -30,7 +30,7 @@ services:
       - app-network
 
   bot:
-    container_name: bot_dev
+    container_name: reels-dw-bot_dev
     build:
       context: .
       dockerfile: docker/Dockerfile.dev
