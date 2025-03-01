@@ -36,6 +36,7 @@ services:
     env_file:
       - .env
     volumes:
+      - ./data:/app/data
       - ./downloads:/app/downloads
     restart: always
     networks:
